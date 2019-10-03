@@ -1,18 +1,28 @@
 import React from 'react';
 import MetricsCard from './MetricsCard';
 import { MetricsWrap } from '../../styled-components/metricCardStyles';
+import { useQuery } from 'urql';
 
-const MetricsMain = (props) => {
-    // replace with graphql query results
-    const metricTitles = [
-        'tubingPressure',
-        'flareTemp',
-        'injValveOpen',
-        'oilTemp',
-        'casingPressure',
-        'waterTemp'
-    ];
+const getMetricTitles = `
+        query GetMetricTitles {
+            getMetrics
+        }
+    `
 
+const MetricsMain = () => {
+    const [{ fetching, data, error }] = useQuery({
+        query: getMetricTitles
+    });
+
+    if(fetching) {
+        return 'Loading...';
+    } else if(error) {
+        return `This is not the error you are looking for...
+                ERROR: ${error}`
+    }
+
+    const metricTitles = data.getMetrics
+    console.log(metricTitles)
     return(
         <MetricsWrap>
             {metricTitles.map(t => {
