@@ -1,16 +1,15 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import createStore from './store';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from './components/Header';
 import Wrapper from './components/Wrapper';
 import MetricsMain from './components/metrics/MetricsMain';
 import LineGraphMain from './components/line-graphs/LineGraphMain';
+import { Provider, createClient } from 'urql';
 
-const store = createStore();
+
 const theme = createMuiTheme({
   typography: {
     useNextVariants: true,
@@ -28,17 +27,21 @@ const theme = createMuiTheme({
   },
 });
 
+const client = createClient({
+  url: 'https://react.eogresources.com/graphql',
+});
+
 const App = props => (
   <MuiThemeProvider theme={theme}>
     <CssBaseline />
-    <Provider store={store}>
-      <Wrapper>
-        <Header />
-        <ToastContainer />
-        <MetricsMain />
-        <LineGraphMain />
-      </Wrapper>
-    </Provider>
+      <Provider value={client}>
+        <Wrapper>
+          <Header />
+          <ToastContainer />
+          <MetricsMain />
+          <LineGraphMain />
+        </Wrapper>
+      </Provider>
   </MuiThemeProvider>
 );
 
