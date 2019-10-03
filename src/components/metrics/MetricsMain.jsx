@@ -1,5 +1,6 @@
 import React from 'react';
 import MetricsCard from './MetricsCard';
+import * as actions from '../../store/actions';
 import { MetricsWrap } from '../../styled-components/metricCardStyles';
 import { useQuery } from 'urql';
 
@@ -22,11 +23,11 @@ const MetricsMain = () => {
     }
 
     const metricTitles = data.getMetrics
-    console.log(metricTitles)
+
     return(
         <MetricsWrap>
             {metricTitles.map(t => {
-                return <MetricsCard title={t} />
+                return <MetricsCard key={t} title={t} />
             })}
         </MetricsWrap>
     )
