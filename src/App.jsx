@@ -7,8 +7,8 @@ import Header from './components/Header';
 import Wrapper from './components/Wrapper';
 import MetricsMain from './components/metrics/MetricsMain';
 import LineGraphMain from './components/line-graphs/LineGraphMain';
-import { Provider, createClient } from 'urql';
-
+import { SubscriptionClient } from "subscriptions-transport-ws";
+import { Provider, Client, defaultExchanges, subscriptionExchange } from 'urql';
 
 const theme = createMuiTheme({
   typography: {
@@ -27,8 +27,22 @@ const theme = createMuiTheme({
   },
 });
 
-const client = createClient({
+const subscriptionClient = new SubscriptionClient(
+  "ws://react.eogresources.com/graphql",
+  {
+    reconnect: true,
+    timeout: 20000
+  }
+)
+
+const client = new Client({
   url: 'https://react.eogresources.com/graphql',
+  exchanges: [
+    ...defaultExchanges,
+    subscriptionExchange({
+      forwardSubscription: operation => subscriptionClient.request(operation),
+    }),
+  ],
 });
 
 const App = props => (
