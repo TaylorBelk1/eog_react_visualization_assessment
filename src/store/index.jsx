@@ -1,12 +1,13 @@
-import { createStore, applyMiddleware, combineReducers } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
-import createSagaMiddleware from "redux-saga";
-import sagas from "./sagas";
-import weatherReducer from "./reducers/Weather";
+/* eslint-disable import/no-extraneous-dependencies */
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import createSagaMiddleware from 'redux-saga';
+import sagas from './sagas';
+import weatherReducer from './reducers/Weather';
 
 export default () => {
   const rootReducer = combineReducers({
-    weather: weatherReducer
+    weather: weatherReducer,
   });
 
   const composeEnhancers = composeWithDevTools({});
