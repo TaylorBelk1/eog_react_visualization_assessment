@@ -5,10 +5,9 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from './components/Header';
 import Wrapper from './components/Wrapper';
-import MetricsMain from './components/metrics/MetricsMain';
-import LineGraphMain from './components/line-graphs/LineGraphMain';
 import { SubscriptionClient } from "subscriptions-transport-ws";
 import { Provider, Client, defaultExchanges, subscriptionExchange } from 'urql';
+import BodyWrapper from './components/BodyWrapper';
 
 const theme = createMuiTheme({
   typography: {
@@ -52,8 +51,7 @@ const App = props => (
         <Wrapper>
           <Header />
           <ToastContainer />
-          <MetricsMain />
-          <LineGraphMain />
+          <BodyWrapper />
         </Wrapper>
       </Provider>
   </MuiThemeProvider>
