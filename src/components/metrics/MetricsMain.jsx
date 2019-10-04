@@ -1,6 +1,5 @@
 import React from 'react';
 import MetricsCard from './MetricsCard';
-import * as actions from '../../store/actions';
 import { MetricsWrap } from '../../styled-components/metricCardStyles';
 import { useQuery } from 'urql';
 
@@ -10,7 +9,7 @@ const getMetricTitles = `
         }
     `
 
-const MetricsMain = () => {
+const MetricsMain = (props) => {
     const [{ fetching, data, error }] = useQuery({
         query: getMetricTitles
     });
@@ -27,7 +26,7 @@ const MetricsMain = () => {
     return(
         <MetricsWrap>
             {metricTitles.map(t => {
-                return <MetricsCard key={t} title={t} />
+                return <MetricsCard key={t} title={t} viewGraph={props.viewGraph} />
             })}
         </MetricsWrap>
     )
