@@ -1,56 +1,35 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import MetricsMain from './metrics/MetricsMain';
 import LineGraphMain from './line-graphs/LineGraphMain';
-import { useQuery } from 'urql';
-import {
-    getMetricTitles,
-    getRealTimeMeasurements
-} from './queryStrings';
+import { connect } from 'react-redux';
+import { setMeasurements, setLoading } from '../store/actions';
 
-const query = `
-    query getMeasurementsQuery ($metricArray: [MeasurementQuery]) {
-        getMultipleMeasurements(input: $metricArray) {
-            metric
-            measurements {
-                metric
-                at
-                value
-                unit
-            }
-        }
+const BodyWrapper = (props) => {
+    const [viewChart, setViewChart] = useState(false);
+    const [selectedTab, setSelectedTab] = useState();
+
+    const handleGraphViewStatus = (status, selectedTab) => {
+        setViewChart(status);
+        console.log(selectedTab);
     }
-`
-
-// this component will wrap the main components in the body and perform all
-// the logic, allowing the child components to simply focus on displaying
-//data
-const BodyWrapper = () => {
-    const [{ fetching, data, error }] = useQuery({
-        query: getMetricTitles
-    });
-
-    if(fetching) {
-        return 'Loading...';
-    } else if(error) {
-        return `This is not the error you are looking for...
-                ERROR: ${error}`
-    }
-
-    const metricTitles = data.getMetrics
-    const metArray = metricTitles.map(title => {
-        return {
-            metricName: title,
-            after: ''
-        }
-    });
-
 
     return (
         <div>
-            <MetricsMain />
-            <LineGraphMain />
+            <MetricsMain viewGraph={handleGraphViewStatus}/>
+            {viewChart ?
+                <LineGraphMain /> :
+                <p>Click a tab to see the graph</p>
+            }
+
         </div>
     )
 }
 
-export default BodyWrapper
+const mstp = state => {
+    return {
+        measurements: state.data,
+        loading: state.loading
+    }
+}
+
+export default connect(mstp, { setMeasurements, setLoading })(BodyWrapper)
