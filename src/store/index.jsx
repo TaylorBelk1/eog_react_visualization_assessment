@@ -5,10 +5,12 @@ import createSagaMiddleware from 'redux-saga';
 import logger from 'redux-logger';
 import sagas from './sagas';
 import weatherReducer from './reducers/Weather';
+import { MeasurementReducer } from './reducers/Measurements';
 
 export default () => {
   const rootReducer = combineReducers({
     weather: weatherReducer,
+    measurements: MeasurementReducer
   });
 
   const composeEnhancers = composeWithDevTools({});
