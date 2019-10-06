@@ -3,9 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { getMeasurementsQuery, getLastValue } from '../queryStrings';
-import { subtractMinutes } from '../../store/utils';
-import { useQuery } from 'urql';
+import MetricsCardView from './MetricsCardView';
+import { connect } from 'react-redux';
+import { setShowMetricValues, setCurrentTabs } from '../../store/actions';
 
 const useStyles = makeStyles({
   card: {
@@ -24,35 +24,12 @@ const useStyles = makeStyles({
 
 const MetricsCard = (props) => {
     const classes = useStyles();
-    const [toggleChart, setToggleChart] = useState(false);
-    const [cardData, setCardData] = useState(null);
-    const metricName = props.title;
-
-    const [{ fetching, data, error }] = useQuery({
-      query: getLastValue,
-      variables: { metricName }
-    })
-
-    if(fetching) {
-      return 'Loading...';
-    } else if(error) {
-      return `This is not the error you are looking for...
-              ERROR: ${error}`
-    }
-
-    const { value } = data.getLastKnownMeasurement
-
 
     const handleClick = () => {
-      setCardData(value);
-      setToggleChart(!toggleChart);
-      props.viewGraph(toggleChart, props.title)
+      console.log('Clicked', props.title);
+      setShowMetricValues(!props.viewMetricValue);
+      setCurrentTabs(props.title);
     }
-    if(cardData !== null) {
-      console.log(cardData)
-    }
-
-    // #TODO: Need to get the names to toggle view for the value
 
     return (
         <Card className={classes.card} raised={true} onClick={() => handleClick()}>
@@ -60,7 +37,7 @@ const MetricsCard = (props) => {
                 <Typography className={classes.title}>
                     {props.title}
                 </Typography>
-                {cardData !== null ? null : <p>{ cardData }</p>}
+                {props.viewMetricValue ? <MetricsCardView /> : null}
             </CardContent>
         </Card>
     )
@@ -68,9 +45,9 @@ const MetricsCard = (props) => {
 
 const mstp = state => {
   return {
-      measurements: state.data,
-      loading: state.loading
+      data: state.data,
+      viewMetricValue: state.viewMetricValue
   }
 }
 
-export default MetricsCard
+export default connect(mstp, { setCurrentTabs, setShowMetricValues })(MetricsCard)

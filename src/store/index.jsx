@@ -9,8 +9,8 @@ import { MeasurementReducer } from './reducers/Measurements';
 
 export default () => {
   const rootReducer = combineReducers({
+    measurementReducer: MeasurementReducer,
     weather: weatherReducer,
-    measurements: MeasurementReducer
   });
 
   const composeEnhancers = composeWithDevTools({});

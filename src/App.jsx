@@ -7,7 +7,7 @@ import Header from './components/Header';
 import Wrapper from './components/Wrapper';
 import { SubscriptionClient } from "subscriptions-transport-ws";
 import { Provider, Client, defaultExchanges, subscriptionExchange } from 'urql';
-import BodyWrapper from './components/BodyWrapper';
+import MetricsMain from './components/metrics/MetricsMain';
 
 const theme = createMuiTheme({
   typography: {
@@ -51,7 +51,7 @@ const App = props => (
         <Wrapper>
           <Header />
           <ToastContainer />
-          <BodyWrapper />
+          <MetricsMain />
         </Wrapper>
       </Provider>
   </MuiThemeProvider>

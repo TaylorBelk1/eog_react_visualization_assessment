@@ -16,16 +16,15 @@ export const getRealTimeMeasurements = `
 `
 
 export const getMultipleMeasurements = `
-    query getMeasurementsQuery ($metricArray: [MeasurementQuery]) {
-        getMultipleMeasurements(input: $metricArray) {
-            metric
-            measurements {
-                metric
-                at
-                value
-                unit
+    query getMultipleMeasurements ($measurements: [MeasurementQuery]) {
+        getMultipleMeasurements(input: $measurements) {
+                measurements {
+                  metric
+                  at
+                  value
+                  unit
+                }
             }
-        }
     }
 `
 

@@ -3,7 +3,7 @@ import LineGraph from './LineGraph';
 import { data } from './dummy-data';
 import { useSubscription } from 'urql';
 import { connect } from 'react-redux';
-import { setMeasurements, setLoading } from '../../store/actions';
+import { setMeasurements } from '../../store/actions';
 import {
     getRealTimeMeasurements
 } from '../queryStrings';
@@ -16,6 +16,7 @@ const LineGraphMain = (props) => {
     const [res] = useSubscription({
         query: getRealTimeMeasurements, handleSub
     });
+
     if(!res.data) return <p>No Data</p>
 
     props.setMeasurements(res.data)
@@ -33,4 +34,4 @@ const mstp = state => {
     }
 }
 
-export default connect(mstp, { setMeasurements, setLoading })(LineGraphMain)
+export default connect(mstp, { setMeasurements })(LineGraphMain)
