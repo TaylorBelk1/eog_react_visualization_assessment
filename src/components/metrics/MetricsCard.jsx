@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import MetricsCardView from './MetricsCardView';
 import { connect } from 'react-redux';
-import { setShowMetricValues, setCurrentTabs } from '../../store/actions';
 
 const useStyles = makeStyles({
   card: {
@@ -24,11 +23,11 @@ const useStyles = makeStyles({
 
 const MetricsCard = (props) => {
     const classes = useStyles();
+    const [show, setShow] = useState(false);
 
     const handleClick = () => {
       console.log('Clicked', props.title);
-      setShowMetricValues(!props.viewMetricValue);
-      setCurrentTabs(props.title);
+      setShow(!show);
     }
 
     return (
@@ -37,7 +36,7 @@ const MetricsCard = (props) => {
                 <Typography className={classes.title}>
                     {props.title}
                 </Typography>
-                {props.viewMetricValue ? <MetricsCardView /> : null}
+                {show ? <MetricsCardView title={props.title} /> : null}
             </CardContent>
         </Card>
     )
@@ -45,9 +44,7 @@ const MetricsCard = (props) => {
 
 const mstp = state => {
   return {
-      data: state.data,
-      viewMetricValue: state.viewMetricValue
   }
 }
 
-export default connect(mstp, { setCurrentTabs, setShowMetricValues })(MetricsCard)
+export default connect(null, {} )(MetricsCard)
