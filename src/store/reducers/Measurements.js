@@ -1,87 +1,106 @@
 import {
-    // NEW_MEASUREMENTS_RECEIVED,
     SET_INIT_VALUES,
-    SET_CURRENT_TABS,
-    UPDATE_MEASUREMENTS,
-    TOGGLE_SHOW_CARD_VALUE,
-    TOGGLE_SHOW_LINE_GRAPH
+    SET_SELECTED_DATA,
+    NEW_MEASUREMENTS_RECEIVED,
 } from '../actions';
-import {
-    convertEpochToLocalTime,
-    subtractMinutes
-} from '../utils';
+// import {
+//     convertEpochToLocalTime,
+//     subtractMinutes,
+// } from '../utils';
 
 const initialState = {
     loading: false,
     data: [],
-    tubingPressureData: [],
-    flareTempData: [],
-    injValveOpenData: [],
-    oilTempData: [],
-    casingPressureData: [],
-    waterTempData: [],
-    currentTabs: [],
+    currentlySelected: [],
     viewMetricValue: false,
     viewLineGraph: false,
+    updatedData: []
 };
 
 
 export const MeasurementReducer = ( state = initialState, action ) => {
-    let newData = [];
-    let measurements = action.payload
-    console.log(action.payload)
     switch(action.type) {
 
         case SET_INIT_VALUES:
-            measurements.map(obj => {
-                obj.measurements.forEach(item => {
-                    let newItem = {
-                        ...item,
-                        localTime: convertEpochToLocalTime(item.at)
-                    }
-                    newData.push(newItem)
-                })
-            })
+            const newData = {
+                tubingPressure: action.payload[0].measurements,
+                flareTemp: action.payload[1].measurements,
+                injValveOpen: action.payload[2].measurements,
+                oilTemp: action.payload[3].measurements,
+                casingPressure: action.payload[4].measurements,
+                waterTemp: action.payload[5].measurements,
+            }
+            console.log(newData.tubingPressure.length)
             return {
                 ...state,
                 data: newData
             }
 
-        case SET_CURRENT_TABS:
-            console.log('Set current tabs toggled')
+        case SET_SELECTED_DATA:
+            console.log(action.payload)
+            let newTab;
+            if(state.currentlySelected.length === 0) {
+                newTab = action.payload
+            } else {
+                newTab = state.currentlySelected.concat(action.payload)
+            }
             return {
                 ...state,
-                currentTabs: action.payload,
+                currentlySelected: newTab
             }
 
-        case TOGGLE_SHOW_CARD_VALUE:
-            console.log('Metric Value View Toggled');
-            return {
-                ...state,
-                viewMetricValue: action.payload,
-            }
+        case NEW_MEASUREMENTS_RECEIVED:
+                let tempData = state.data;
+                if(action.payload) {
+                    switch(action.payload.newMeasurement.metric) {
+                        case "tubingPressure":
+                            tempData.tubingPressure.push(action.payload.newMeasurement);
+                            tempData.tubingPressure.shift();
+                            return {
+                                data: tempData
+                            }
 
-        case TOGGLE_SHOW_LINE_GRAPH:
-            return {
-                ...state,
-                viewLineGraph: action.payload
-            }
+                            case "flareTemp":
+                            tempData.flareTemp.push(action.payload.newMeasurement);
+                            tempData.flareTemp.shift();
+                            return {
+                                data: tempData
+                            }
 
-        case UPDATE_MEASUREMENTS:
-            let cutOff = subtractMinutes(Date.now());
-            let newItem = {
-                ...action.payload,
-                localTime: convertEpochToLocalTime(action.payload.at)
-            }
-            let data = state.data
-            data.concat(newItem);
-            let oldDataRemoved = data.filter(item => {
-                return item.at > cutOff
-            })
-            return {
-                ...state,
-                data: oldDataRemoved
-            }
+                            case "injValveOpen":
+                            tempData.injValveOpen.push(action.payload.newMeasurement);
+                            tempData.injValveOpen.shift();
+                            return {
+                                data: tempData
+                            }
+
+                            case "oilTemp":
+                            tempData.oilTemp.push(action.payload.newMeasurement);
+                            tempData.oilTemp.shift();
+                            return {
+                                data: tempData
+                            }
+
+                            case "casingPressure":
+                            tempData.casingPressure.push(action.payload.newMeasurement);
+                            tempData.casingPressure.shift();
+                            return {
+                                data: tempData
+                            }
+
+                            case "waterTemp":
+                            tempData.waterTemp.push(action.payload.newMeasurement);
+                            tempData.waterTemp.shift();
+                            return {
+                                data: tempData
+                            }
+
+                            default:
+                                return {
+                                    ...state
+                                }
+                    }
+                } else return {...state};
 
         default:
             return state
