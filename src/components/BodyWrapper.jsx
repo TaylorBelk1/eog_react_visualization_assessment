@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import MetricsMain from './metrics/MetricsMain';
-import LineGraphMain from './line-graphs/LineGraphMain';
 import { connect } from 'react-redux';
-import { setInitValues } from '../store/actions';
+import { setInitValues, setMeasurements } from '../store/actions';
 import { useQuery } from 'urql';
 import { getMultipleMeasurements } from './queryStrings';
 import { subtractMinutes } from '../store/utils';
 
 const BodyWrapper = (props) => {
-    const [viewChart, setViewChart] = useState(false);
-    const [selectedTab, setSelectedTab] = useState();
     const [startTime, setStartTime] = useState();
 
     useEffect(() => {
@@ -58,28 +55,20 @@ const BodyWrapper = (props) => {
 
     props.setInitValues(data.getMultipleMeasurements);
 
-    const handleGraphViewStatus = (status, selectedTab) => {
-        setViewChart(status);
-        console.log(selectedTab);
-    }
+    // SUB LOGIC START
 
     return (
-        <div>
-            <MetricsMain viewGraph={handleGraphViewStatus}/>
-            {viewChart ?
-                <LineGraphMain /> :
-                <p>Click a tab to see the graph</p>
-            }
-
-        </div>
+        <>
+            <MetricsMain />
+        </>
     )
 }
 
-const mstp = state => {
-    return {
-        measurements: state.data,
-        loading: state.loading
-    }
-}
+// const mstp = state => {
+//     return {
+//         measurements: state.data,
+//         loading: state.loading
+//     }
+// }
 
-export default connect(mstp, { setInitValues })(BodyWrapper)
+export default connect(null, { setInitValues, setMeasurements })(BodyWrapper)
