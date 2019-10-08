@@ -64,11 +64,4 @@ const BodyWrapper = (props) => {
     )
 }
 
-// const mstp = state => {
-//     return {
-//         measurements: state.data,
-//         loading: state.loading
-//     }
-// }
-
 export default connect(null, { setInitValues, setMeasurements })(BodyWrapper)
