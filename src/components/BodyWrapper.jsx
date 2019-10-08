@@ -13,7 +13,6 @@ const BodyWrapper = (props) => {
         setStartTime(subtractMinutes(Date.now()));
     }, [])
 
-    console.log(startTime)
     const measurements = [
         {
           metricName: "tubingPressure",
