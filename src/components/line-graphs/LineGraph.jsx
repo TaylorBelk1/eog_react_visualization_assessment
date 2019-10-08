@@ -1,24 +1,80 @@
-import React from 'react';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Label } from 'recharts';
+import React, { Component } from 'react';
 import { LineChartWrapper } from '../../styled-components/lineGraphStyles';
+import { convertEpochToLocalTime } from '../../store/utils';
+import Chart from "chart.js";
+let myLineChart;
 
-const LineGraph = (props) => {
+export default class LineGraph extends Component {
+    chartRef = React.createRef();
 
-    const { data } = props;
+    componentDidMount() {
+        this.buildChart();
+    }
 
-    return (
-        <LineChartWrapper>
-            <LineChart className="lineChart" width={1200} height={500} data={data} margin={{ bottom: 15 }}>
-                <Line type="monotone" dataKey="value" stroke="#8884d8" />
-                <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                <XAxis dataKey="at">
-                    <Label value="Time Elapsed" offset={-10} position="insideBottom" />
-                </XAxis>
-                <YAxis label={{ value: 'PSI', angle: -90, position: 'insideLeft' }} />
-                <Tooltip />
-            </LineChart>
-        </LineChartWrapper>
-    )
+    componentDidUpdate(prevProps) {
+        if(this.props.data !== prevProps.data && this.props.labels && prevProps.labels) {
+            this.buildChart()
+        }
+    }
+
+
+    buildChart = () => {
+        const myChartRef = this.chartRef.current.getContext("2d");
+        if (typeof myLineChart !== "undefined") myLineChart.destroy();
+
+        myLineChart = new Chart(myChartRef, {
+            type: "line",
+            data: {
+                labels: this.props.labels,
+                datasets: this.props.data,
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        id: 'PSI',
+                        type: 'linear',
+                        position: 'left',
+                        display: 'auto',
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'PSI',
+                        },
+                    }, {
+                        id: 'F',
+                        type: 'linear',
+                        position: 'left',
+                        display: 'auto',
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'F',
+                        },
+                    }, {
+                        id: '%',
+                        type: 'linear',
+                        position: 'left',
+                        display: 'auto',
+                        scaleLabel: {
+                            display: true,
+                            labelString: '%',
+                        },
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            maxTicksLimit: 6
+                        }
+                    }]
+                },
+                animation: {
+                    duration: 0 // general animation time
+                },
+                responsive: true,
+            }
+        })
+    }
+
+    render() {
+        return (
+            <canvas id="myChart" ref={this.chartRef} />
+        )
+    }
 }
-
-export default LineGraph
