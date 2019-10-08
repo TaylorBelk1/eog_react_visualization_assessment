@@ -5,6 +5,8 @@ export const NEW_MEASUREMENTS_RECEIVED = "NEW_MEASUREMENTS_RECEIVED";
 export const SET_INIT_VALUES = "SET_INIT_VALUES";
 export const UPDATE_MEASUREMENTS = "UPDATE_MEASUREMENTS";
 export const SET_SELECTED_DATA = "SET_SELECTED_DATA";
+export const REMOVE_SELECTED_DATA = "REMOVE_SELECTED_DATA";
+export const TOGGLE_SHOW_LINE_GRAPH = "TOGGLE_SHOW_LINE_GRAPH";
 
 export function setMeasurements (data) {
     return {
@@ -19,11 +21,3 @@ export function setInitValues(values) {
         payload: values,
     }
 }
-
-export function setCurrentlySelectedData(data) {
-    return {
-        type: SET_SELECTED_DATA,
-        payload: data
-    }
-}
-
