@@ -4,7 +4,8 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import MetricsCardView from './MetricsCardView';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import * as actions from '../../store/actions';
 
 const useStyles = makeStyles({
   card: {
@@ -18,16 +19,34 @@ const useStyles = makeStyles({
   }
 });
 
-// this component needs to initially query getMeasurements and send it
-// to redux so it will have a baseline set of data
+const getLineGraphStatus = state => {
+  const { viewLineGraph } = state.measurementReducer.viewLineGraph;
+  return { viewLineGraph };
+}
 
 const MetricsCard = (props) => {
     const classes = useStyles();
     const [show, setShow] = useState(false);
+    const dispatch = useDispatch();
+    const { viewLineGraph } = useSelector(getLineGraphStatus);
 
     const handleClick = () => {
       console.log('Clicked', props.title);
       setShow(!show);
+      props.handleShow();
+      if(!show) {
+        console.log('LAUNCHING SET_SELECTED_DATA');
+        dispatch({
+          type: actions.SET_SELECTED_DATA,
+          payload: props.title,
+        });
+      } else if(show) {
+        console.log('LAUNCHING REMOVE_SELECTED_DATA');
+        dispatch({
+          type: actions.REMOVE_SELECTED_DATA,
+          payload: props.title,
+        })
+      }
     }
 
     return (
@@ -42,9 +61,4 @@ const MetricsCard = (props) => {
     )
 }
 
-const mstp = state => {
-  return {
-  }
-}
-
-export default connect(null, {} )(MetricsCard)
+export default MetricsCard
