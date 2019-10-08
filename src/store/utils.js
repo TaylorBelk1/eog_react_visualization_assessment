@@ -1,5 +1,5 @@
   export const convertEpochToLocalTime = (timestamp) => {
-      return new Date(timestamp).toLocaleTimeString("it-IT");
+      return new Date(timestamp).toLocaleTimeString();
   };
 
   export const subtractMinutes = (timestamp) => {
