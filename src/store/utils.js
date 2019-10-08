@@ -1,15 +1,5 @@
-function pad(date) {
-    let dateArr = date.split('');
-    if(dateArr.length >= 10) {
-      dateArr.unshift(0);
-      dateArr.join('');
-    }
-
-    return dateArr.slice(0, 5).join('');
-  }
-
   export const convertEpochToLocalTime = (timestamp) => {
-      return pad(new Date(timestamp).toLocaleTimeString());
+      return new Date(timestamp).toLocaleTimeString("it-IT");
   };
 
   export const subtractMinutes = (timestamp) => {
