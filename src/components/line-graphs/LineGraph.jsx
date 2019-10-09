@@ -66,6 +66,12 @@ export default class LineGraph extends Component {
                     duration: 0 // general animation time
                 },
                 responsive: true,
+                tooltips: {
+                    intersect: false,
+                    enabled: true,
+                    mode: 'index',
+                    axis: 'x'
+                }
             }
         })
     }
