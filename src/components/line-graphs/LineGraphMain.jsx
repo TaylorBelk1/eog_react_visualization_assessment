@@ -69,7 +69,7 @@ const LineGraphMain = (props) => {
     labels = changeToLocal(labels);
 
     return (
-        <LineChartWrapper>
+        <LineChartWrapper hidden={currentlySelected.length > 0 ? false : true}>
             <LineGraph data={newData} labels={labels} />
         </LineChartWrapper>
     )
