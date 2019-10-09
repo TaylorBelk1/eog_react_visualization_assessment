@@ -14,33 +14,25 @@ const BodyWrapper = () => {
         setStartTime(subtractMinutes(Date.now()));
     }, [])
 
-    // #TODO: REFACTOR THIS SO IT IS DRY
-    const measurements = [
-        {
-          metricName: "tubingPressure",
-          after: startTime,
-        },
-        {
-          metricName: "flareTemp",
-          after: startTime,
-        },
-        {
-          metricName: "injValveOpen",
-          after: startTime,
-        },
-        {
-          metricName: "oilTemp",
-          after: startTime,
-        },
-        {
-          metricName: "casingPressure",
-          after: startTime,
-        },
-        {
-          metricName: "waterTemp",
-          after: startTime,
-        }
+    const metricTitles = [
+      "tubingPressure",
+      "flareTemp",
+      "injValveOpen",
+      "oilTemp",
+      "casingPressure",
+      "waterTemp",
     ]
+
+    const createMeasurementQueryArray = (title) => {
+      return {
+        metricName: title,
+        after: startTime
+      }
+    }
+
+    const measurements = metricTitles.map(title => {
+      return createMeasurementQueryArray(title);
+    })
 
     const [{ fetching, data, error }] = useQuery({
         query: getMultipleMeasurements,
