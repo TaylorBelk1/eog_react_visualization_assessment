@@ -6,7 +6,7 @@ import { getMultipleMeasurements } from './queryStrings';
 import { subtractMinutes } from '../store/utils';
 import * as actions from '../store/actions';
 
-const BodyWrapper = (props) => {
+const BodyWrapper = () => {
     const [startTime, setStartTime] = useState();
     const dispatch = useDispatch();
 
