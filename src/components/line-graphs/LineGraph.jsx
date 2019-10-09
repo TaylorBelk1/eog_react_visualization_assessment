@@ -1,3 +1,6 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable object-shorthand */
+
 import React, { Component } from 'react';
 import Chart from "chart.js";
 let myLineChart;
