@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { LineChartWrapper } from '../../styled-components/lineGraphStyles';
-import { convertEpochToLocalTime } from '../../store/utils';
 import Chart from "chart.js";
 let myLineChart;
 

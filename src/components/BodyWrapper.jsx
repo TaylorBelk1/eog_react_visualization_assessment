@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MetricsMain from './metrics/MetricsMain';
 import { connect } from 'react-redux';
-import { setInitValues, setMeasurements } from '../store/actions';
+import { setInitValues } from '../store/actions';
 import { useQuery } from 'urql';
 import { getMultipleMeasurements } from './queryStrings';
 import { subtractMinutes } from '../store/utils';
@@ -13,6 +13,7 @@ const BodyWrapper = (props) => {
         setStartTime(subtractMinutes(Date.now()));
     }, [])
 
+    // #TODO: REFACTOR THIS SO IT IS DRY
     const measurements = [
         {
           metricName: "tubingPressure",
@@ -63,4 +64,4 @@ const BodyWrapper = (props) => {
     )
 }
 
-export default connect(null, { setInitValues, setMeasurements })(BodyWrapper)
+export default connect(null, { setInitValues })(BodyWrapper)
