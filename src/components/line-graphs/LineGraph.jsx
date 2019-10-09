@@ -103,5 +103,5 @@ LineGraph.propTypes = {
     pointRadius: PropTypes.number,
     yAxisID: PropTypes.string,
   })).isRequired,
-  labels: PropTypes.arrayOf(PropTypes.string)
+  labels: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
