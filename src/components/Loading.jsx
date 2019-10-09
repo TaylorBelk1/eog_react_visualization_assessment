@@ -17,6 +17,6 @@ const Loading = () => {
       <CircularProgress className={classes.progress} />
     </LoadingWrap>
   );
-}
+};
 
-export default Loading
+export default Loading;
