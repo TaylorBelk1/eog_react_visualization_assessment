@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import MetricsCard from './MetricsCard';
-import { MetricsWrap, MetricCardsWrap } from '../../styled-components/metricCardStyles';
 import { useSubscription } from 'urql';
-import { getRealTimeMeasurements } from '../queryStrings';
-import { connect } from 'react-redux';
-import LineGraphMain from '../line-graphs/LineGraphMain';
 import { useDispatch } from 'react-redux';
+
+import { MetricsWrap, MetricCardsWrap } from '../../styled-components/metricCardStyles';
+import { getRealTimeMeasurements } from '../queryStrings';
+import MetricsCard from './MetricsCard';
+import LineGraphMain from '../line-graphs/LineGraphMain';
 import * as actions from '../../store/actions';
 
 const handleSub = (measurements = [], response) => {
@@ -47,4 +47,4 @@ const MetricsMain = (props) => {
     )
 }
 
-export default connect(null, {  })(MetricsMain)
+export default MetricsMain

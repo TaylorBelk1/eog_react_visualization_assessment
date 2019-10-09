@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import MetricsMain from './metrics/MetricsMain';
-import { connect } from 'react-redux';
-import { setInitValues } from '../store/actions';
+import { useDispatch } from 'react-redux';
 import { useQuery } from 'urql';
 import { getMultipleMeasurements } from './queryStrings';
 import { subtractMinutes } from '../store/utils';
+import * as actions from '../store/actions';
 
-const BodyWrapper = (props) => {
+const BodyWrapper = () => {
     const [startTime, setStartTime] = useState();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         setStartTime(subtractMinutes(Date.now()));
@@ -53,7 +54,10 @@ const BodyWrapper = (props) => {
         return 'Error...'
     }
 
-    props.setInitValues(data.getMultipleMeasurements);
+    dispatch({
+      type: actions.SET_INIT_VALUES,
+      payload: data.getMultipleMeasurements,
+    })
 
     // SUB LOGIC START
 
@@ -64,4 +68,4 @@ const BodyWrapper = (props) => {
     )
 }
 
-export default connect(null, { setInitValues })(BodyWrapper)
+export default BodyWrapper
