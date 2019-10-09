@@ -20,9 +20,9 @@ Read more about this assessment [here](https://react.eogresources.com)
 
 ## Day Three
 #### -Freshen up on GraphQL
-#### -Rearch using Redux with GraphQL and Apollo
+#### -Rearch using Redux with GraphQL and URQL
 #### -Test out the GraphQL API and run queries/mutations
-#### -Research and Implement Apollo Client for Graphql ( new branch )
+#### -Research and Implement URQL for GraphQL
 
 ## Day Four
 #### -Implement select Metrics
@@ -32,11 +32,8 @@ Read more about this assessment [here](https://react.eogresources.com)
 ## Day Five
 #### -Research and implement recharts for historical metric data
 
-## Day Six
-#### -Create unit tests
-#### -Add Styling
-
 ## Day Six/Seven
+#### -Add Styling
 #### -Catch up on anything behind
 #### -Check for any optimization opportunities
 #### -Check code quality and refactor any components if necessary
