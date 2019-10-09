@@ -5,6 +5,7 @@ import { useQuery } from 'urql';
 import { getMultipleMeasurements } from './queryStrings';
 import { subtractMinutes } from '../store/utils';
 import Loading from './Loading';
+import ErrorView from './ErrorView';
 import * as actions from '../store/actions';
 
 const BodyWrapper = () => {
@@ -43,7 +44,7 @@ const BodyWrapper = () => {
     if(fetching) {
         return <Loading />
     } else if(error) {
-        return 'Error...'
+        return <ErrorView />
     }
 
     dispatch({
