@@ -1,17 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import MetricsCard from './MetricsCard';
 import { MetricsWrap, MetricCardsWrap } from '../../styled-components/metricCardStyles';
 import { useSubscription } from 'urql';
 import { getRealTimeMeasurements } from '../queryStrings';
 import { connect } from 'react-redux';
 import { setMeasurements } from '../../store/actions';
-// import LineGraphMain from '../line-graphs/LineGraphMain';
+import LineGraphMain from '../line-graphs/LineGraphMain';
 
 const handleSub = (measurements = [], response) => {
   return [response.data, ...measurements]
 };
 
 const MetricsMain = (props) => {
+    const [showLineGraph, setShowLineGraph] = useState(false);
     const metricTitles = [
         "tubingPressure",
         "flareTemp",
@@ -24,17 +25,19 @@ const MetricsMain = (props) => {
         query: getRealTimeMeasurements, handleSub
       });
 
-      props.setMeasurements(res.data)
-      // SUB LOGIC END
+    props.setMeasurements(res.data)
+
+    const handleShow = () => setShowLineGraph(true);
+
 
     return(
         <MetricsWrap>
             <MetricCardsWrap>
                 {metricTitles.map(t => {
-                    return <MetricsCard key={t} title={t} />
+                    return <MetricsCard key={t} title={t} handleShow={handleShow} />
                 })}
             </MetricCardsWrap>
-        {/* <LineGraphMain /> */}
+            {showLineGraph ? <LineGraphMain /> : null}
         </MetricsWrap>
     )
 }

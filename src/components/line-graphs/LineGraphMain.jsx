@@ -1,37 +1,79 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { LineChartWrapper } from '../../styled-components/lineGraphStyles';
+import { convertEpochToLocalTime } from '../../store/utils';
+import Chart from "chart.js";
 import LineGraph from './LineGraph';
-import { data } from './dummy-data';
-import { useSubscription } from 'urql';
-import { connect } from 'react-redux';
-import { setMeasurements } from '../../store/actions';
-import {
-    getRealTimeMeasurements
-} from '../queryStrings';
 
-const handleSub = (measurements = [], response) => {
-    return [response.data, ...measurements]
-};
-
-const LineGraphMain = (props) => {
-    const [res] = useSubscription({
-        query: getRealTimeMeasurements, handleSub
-    });
-
-    if(!res.data) return <p>No Data</p>
-
-    props.setMeasurements(res.data)
-
-
-    return (
-        <LineGraph data={data.getMeasurements} />
-    )
-}
-
-const mstp = state => {
+const getGraphData = state => {
+    const {
+        data,
+    } = state.measurementReducer;
+    const { currentlySelected } = state.measurementReducer;
     return {
-        measurements: state.data,
-        loading: state.loading
+        data,
+        currentlySelected
     }
 }
 
-export default connect(mstp, { setMeasurements })(LineGraphMain)
+const LineGraphMain = (props) => {
+    const colors = ['#C33C54', '#731DD8', '#53DD6C', '#7C8483', '#00CC99', '#53F4FF'];
+    const times = [];
+    const {
+        data,
+        currentlySelected
+     } = useSelector(getGraphData);
+
+    const verifyUniq = (time) => {
+        const newTime = time.sort().filter(function(item, pos, ary) {
+            return !pos || item != ary[pos - 1];
+        })
+        return newTime
+    }
+
+    const changeToLocal = (time) => {
+        return time.map(t => convertEpochToLocalTime(t));
+    }
+
+    const reformatData = (data, color) => {
+        const tempData = {
+            data: [],
+            borderWidth: 1,
+            borderColor: color,
+            backgroundColor: color,
+            label: data[0].metric,
+            fill: false,
+            pointRadius: 0,
+            yAxisID: data[0].unit
+        }
+        data.map(item => {
+            tempData.data.push(item.value);
+            times.push(item.at)
+        });
+
+        return tempData
+    };
+
+    const newData = currentlySelected.map(i => {
+        let temp;
+        if(i === "tubingPressure") temp = reformatData(data.tubingPressure, colors[0]);
+        if(i === "flareTemp") temp = reformatData(data.flareTemp, colors[1]);
+        if(i === "injValveOpen") temp = reformatData(data.injValveOpen, colors[2]);
+        if(i === "oilTemp") temp = reformatData(data.oilTemp, colors[3]);
+        if(i === "casingPressure") temp = reformatData(data.casingPressure, colors[4]);
+        if(i === "waterTemp") temp = reformatData(data.waterTemp, colors[5]);
+
+        return temp
+    })
+
+    let labels = verifyUniq(times)
+    labels = changeToLocal(labels);
+
+    return (
+        <LineChartWrapper>
+            <LineGraph data={newData} labels={labels} />
+        </LineChartWrapper>
+    )
+}
+
+export default LineGraphMain

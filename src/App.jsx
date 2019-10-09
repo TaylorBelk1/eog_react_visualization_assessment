@@ -4,10 +4,10 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from './components/Header';
-import Wrapper from './components/Wrapper';
 import { SubscriptionClient } from "subscriptions-transport-ws";
 import { Provider, Client, defaultExchanges, subscriptionExchange } from 'urql';
 import BodyWrapper from './components/BodyWrapper';
+import { Wrapper } from './styled-components/wrapper';
 
 const theme = createMuiTheme({
   typography: {

@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
 export const LineChartWrapper = styled.div`
-    width: 70%;
-    height: auto;
-    margin: 8em auto;
+    width: 90%;
+    height: 800px;
+    margin: 2em auto;
     padding: 2em;
     background-color: #fff;
     border-radius: 5px;

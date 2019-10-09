@@ -2,19 +2,19 @@ import {
     SET_INIT_VALUES,
     SET_SELECTED_DATA,
     NEW_MEASUREMENTS_RECEIVED,
+    REMOVE_SELECTED_DATA,
+    TOGGLE_SHOW_LINE_GRAPH,
 } from '../actions';
-// import {
-//     convertEpochToLocalTime,
-//     subtractMinutes,
-// } from '../utils';
+import {
+    convertEpochToLocalTime,
+    subtractMinutes,
+    modifyDataForGraph
+} from '../utils';
 
 const initialState = {
-    loading: false,
     data: [],
     currentlySelected: [],
-    viewMetricValue: false,
     viewLineGraph: false,
-    updatedData: []
 };
 
 
@@ -22,6 +22,7 @@ export const MeasurementReducer = ( state = initialState, action ) => {
     switch(action.type) {
 
         case SET_INIT_VALUES:
+            console.log(action.payload)
             const newData = {
                 tubingPressure: action.payload[0].measurements,
                 flareTemp: action.payload[1].measurements,
@@ -30,23 +31,34 @@ export const MeasurementReducer = ( state = initialState, action ) => {
                 casingPressure: action.payload[4].measurements,
                 waterTemp: action.payload[5].measurements,
             }
-            console.log(newData.tubingPressure.length)
             return {
                 ...state,
                 data: newData
             }
 
         case SET_SELECTED_DATA:
-            console.log(action.payload)
-            let newTab;
-            if(state.currentlySelected.length === 0) {
-                newTab = action.payload
-            } else {
-                newTab = state.currentlySelected.concat(action.payload)
-            }
+            const temp = state.currentlySelected
+            temp.push(action.payload.toString());
             return {
                 ...state,
-                currentlySelected: newTab
+                currentlySelected: temp
+            }
+
+        case REMOVE_SELECTED_DATA:
+            const newTabData = state.currentlySelected.filter(item => {
+                return item !== action.payload
+            });
+
+            const finalTabData = [];
+            newTabData.forEach(item => {
+                if(item.length > 0) {
+                    finalTabData.push(item);
+                }
+            })
+
+            return {
+                ...state,
+                currentlySelected: finalTabData
             }
 
         case NEW_MEASUREMENTS_RECEIVED:
@@ -57,6 +69,7 @@ export const MeasurementReducer = ( state = initialState, action ) => {
                             tempData.tubingPressure.push(action.payload.newMeasurement);
                             tempData.tubingPressure.shift();
                             return {
+                                ...state,
                                 data: tempData
                             }
 
@@ -64,6 +77,7 @@ export const MeasurementReducer = ( state = initialState, action ) => {
                             tempData.flareTemp.push(action.payload.newMeasurement);
                             tempData.flareTemp.shift();
                             return {
+                                ...state,
                                 data: tempData
                             }
 
@@ -71,6 +85,7 @@ export const MeasurementReducer = ( state = initialState, action ) => {
                             tempData.injValveOpen.push(action.payload.newMeasurement);
                             tempData.injValveOpen.shift();
                             return {
+                                ...state,
                                 data: tempData
                             }
 
@@ -78,6 +93,7 @@ export const MeasurementReducer = ( state = initialState, action ) => {
                             tempData.oilTemp.push(action.payload.newMeasurement);
                             tempData.oilTemp.shift();
                             return {
+                                ...state,
                                 data: tempData
                             }
 
@@ -85,6 +101,7 @@ export const MeasurementReducer = ( state = initialState, action ) => {
                             tempData.casingPressure.push(action.payload.newMeasurement);
                             tempData.casingPressure.shift();
                             return {
+                                ...state,
                                 data: tempData
                             }
 
@@ -92,6 +109,7 @@ export const MeasurementReducer = ( state = initialState, action ) => {
                             tempData.waterTemp.push(action.payload.newMeasurement);
                             tempData.waterTemp.shift();
                             return {
+                                ...state,
                                 data: tempData
                             }
 
@@ -103,6 +121,6 @@ export const MeasurementReducer = ( state = initialState, action ) => {
                 } else return {...state};
 
         default:
-            return state
+            return {...state}
     }
 }

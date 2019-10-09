@@ -31,17 +31,14 @@ const MetricsCard = (props) => {
     const { viewLineGraph } = useSelector(getLineGraphStatus);
 
     const handleClick = () => {
-      console.log('Clicked', props.title);
       setShow(!show);
       props.handleShow();
       if(!show) {
-        console.log('LAUNCHING SET_SELECTED_DATA');
         dispatch({
           type: actions.SET_SELECTED_DATA,
           payload: props.title,
         });
       } else if(show) {
-        console.log('LAUNCHING REMOVE_SELECTED_DATA');
         dispatch({
           type: actions.REMOVE_SELECTED_DATA,
           payload: props.title,
