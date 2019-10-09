@@ -9,13 +9,18 @@ const useStyles = makeStyles({
   grow: {
     flexGrow: 1,
   },
+  borders: {
+    borderBottom: '3px solid #FF7900',
+    padding: '5px',
+    fontSize: '26px',
+  },
 });
 
 export default () => {
   const classes = useStyles();
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" className={classes.borders}>
       <Toolbar>
         <Typography variant="h6" color="inherit" className={classes.grow}>
           Visualize Everything
