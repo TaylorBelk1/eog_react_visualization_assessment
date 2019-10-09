@@ -5,6 +5,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import MetricsCardView from './MetricsCardView';
 import * as actions from '../../store/actions';
 
@@ -53,3 +54,8 @@ const MetricsCard = props => {
 };
 
 export default MetricsCard;
+
+MetricsCard.propTypes = {
+  title: PropTypes.string.isRequired,
+  handleShow: PropTypes.func.isRequired,
+};
