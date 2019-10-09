@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { LineChartWrapper } from '../../styled-components/lineGraphStyles';
 import { convertEpochToLocalTime } from '../../store/utils';
-import Chart from "chart.js";
 import LineGraph from './LineGraph';
 
 const getGraphData = state => {
@@ -25,8 +24,8 @@ const LineGraphMain = (props) => {
      } = useSelector(getGraphData);
 
     const verifyUniq = (time) => {
-        const newTime = time.sort().filter(function(item, pos, ary) {
-            return !pos || item != ary[pos - 1];
+        const newTime = time.sort().filter((item, pos, ary) => {
+            return !pos || item !== ary[pos - 1];
         })
         return newTime
     }
@@ -49,8 +48,8 @@ const LineGraphMain = (props) => {
         data.map(item => {
             tempData.data.push(item.value);
             times.push(item.at)
+            return null;
         });
-
         return tempData
     };
 

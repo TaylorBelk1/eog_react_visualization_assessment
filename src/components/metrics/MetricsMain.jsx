@@ -4,7 +4,6 @@ import { MetricsWrap, MetricCardsWrap } from '../../styled-components/metricCard
 import { useSubscription } from 'urql';
 import { getRealTimeMeasurements } from '../queryStrings';
 import { connect } from 'react-redux';
-import { setMeasurements } from '../../store/actions';
 import LineGraphMain from '../line-graphs/LineGraphMain';
 import { useDispatch } from 'react-redux';
 import * as actions from '../../store/actions';
@@ -28,7 +27,6 @@ const MetricsMain = (props) => {
         query: getRealTimeMeasurements, handleSub
       });
 
-    // props.setMeasurements(res.data)
     dispatch({
         type: actions.NEW_MEASUREMENTS_RECEIVED,
         payload: res.data
@@ -49,4 +47,4 @@ const MetricsMain = (props) => {
     )
 }
 
-export default connect(null, { setMeasurements })(MetricsMain)
+export default connect(null, {  })(MetricsMain)

@@ -3,13 +3,7 @@ import {
     SET_SELECTED_DATA,
     NEW_MEASUREMENTS_RECEIVED,
     REMOVE_SELECTED_DATA,
-    TOGGLE_SHOW_LINE_GRAPH,
 } from '../actions';
-import {
-    convertEpochToLocalTime,
-    subtractMinutes,
-    modifyDataForGraph
-} from '../utils';
 
 const initialState = {
     data: [],
@@ -22,7 +16,6 @@ export const MeasurementReducer = ( state = initialState, action ) => {
     switch(action.type) {
 
         case SET_INIT_VALUES:
-            console.log(action.payload)
             const newData = {
                 tubingPressure: action.payload[0].measurements,
                 flareTemp: action.payload[1].measurements,
