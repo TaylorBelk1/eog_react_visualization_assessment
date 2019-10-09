@@ -1,9 +1,3 @@
-export const getMetricTitles = `
-    query GetMetricTitles {
-        getMetrics
-    }
-`
-
 export const getRealTimeMeasurements = `
     subscription MeasurementsSub {
         newMeasurement {
@@ -25,24 +19,5 @@ export const getMultipleMeasurements = `
                   unit
                 }
             }
-    }
-`
-
-export const getMeasurementsQuery = `
-query getMeasurements ($met: MeasurementQuery) {
-    getMeasurements(input: $met) {
-        metric
-        at
-        value
-        unit
-    }
-}
-`
-
-export const getLastValue = `
-    query getLastKnown($metricName: String!) {
-        getLastKnownMeasurement(metricName: $metricName) {
-            value
-        }
     }
 `
