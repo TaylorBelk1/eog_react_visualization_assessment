@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useQuery } from 'urql';
 import { getMultipleMeasurements } from './queryStrings';
 import { subtractMinutes } from '../store/utils';
+import Loading from './Loading';
 import * as actions from '../store/actions';
 
 const BodyWrapper = () => {
@@ -40,8 +41,7 @@ const BodyWrapper = () => {
     });
 
     if(fetching) {
-        console.log('fetching..')
-        return 'Loading....'
+        return <Loading />
     } else if(error) {
         return 'Error...'
     }
