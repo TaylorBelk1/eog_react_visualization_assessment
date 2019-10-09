@@ -11,8 +11,9 @@ import * as actions from '../../store/actions';
 
 const useStyles = makeStyles({
   card: {
-    width: 200,
-    height: 60,
+    width: '15%',
+    height: 70,
+    alignItems: 'center',
     textAlign: 'center',
   },
   title: {

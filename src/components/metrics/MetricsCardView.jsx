@@ -67,7 +67,7 @@ const MetricsCardView = props => {
     waterTemp,
   ]);
 
-  return <div>{tab && tab[tab.length - 1].value}</div>;
+  return <div className="value">{tab && tab[tab.length - 1].value}</div>;
 };
 
 export default MetricsCardView;
