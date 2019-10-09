@@ -1,13 +1,18 @@
 import React from 'react';
+import {
+  Provider,
+  Client,
+  defaultExchanges,
+  subscriptionExchange,
+} from 'urql';
 import { ToastContainer } from 'react-toastify';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import 'react-toastify/dist/ReactToastify.css';
-import Header from './components/Header';
-import { SubscriptionClient } from "subscriptions-transport-ws";
-import { Provider, Client, defaultExchanges, subscriptionExchange } from 'urql';
+import { SubscriptionClient } from 'subscriptions-transport-ws';
 import BodyWrapper from './components/BodyWrapper';
 import { Wrapper } from './styled-components/wrapper';
+import Header from './components/Header';
 
 const theme = createMuiTheme({
   typography: {
@@ -27,12 +32,12 @@ const theme = createMuiTheme({
 });
 
 const subscriptionClient = new SubscriptionClient(
-  "ws://react.eogresources.com/graphql",
+  'ws://react.eogresources.com/graphql',
   {
     reconnect: true,
-    timeout: 20000
-  }
-)
+    timeout: 20000,
+  },
+);
 
 const client = new Client({
   url: 'https://react.eogresources.com/graphql',
@@ -44,16 +49,16 @@ const client = new Client({
   ],
 });
 
-const App = props => (
+const App = () => (
   <MuiThemeProvider theme={theme}>
     <CssBaseline />
-      <Provider value={client}>
-        <Wrapper>
-          <Header />
-          <ToastContainer />
-          <BodyWrapper />
-        </Wrapper>
-      </Provider>
+    <Provider value={client}>
+      <Wrapper>
+        <Header />
+        <ToastContainer />
+        <BodyWrapper />
+      </Wrapper>
+    </Provider>
   </MuiThemeProvider>
 );
 
