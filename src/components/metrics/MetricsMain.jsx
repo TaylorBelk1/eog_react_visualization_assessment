@@ -1,36 +1,42 @@
 import React from 'react';
 import MetricsCard from './MetricsCard';
-import * as actions from '../../store/actions';
-import { MetricsWrap } from '../../styled-components/metricCardStyles';
-import { useQuery } from 'urql';
+import { MetricsWrap, MetricCardsWrap } from '../../styled-components/metricCardStyles';
+import { useSubscription } from 'urql';
+import { getRealTimeMeasurements } from '../queryStrings';
+import { connect } from 'react-redux';
+import { setMeasurements } from '../../store/actions';
+// import LineGraphMain from '../line-graphs/LineGraphMain';
 
-const getMetricTitles = `
-        query GetMetricTitles {
-            getMetrics
-        }
-    `
+const handleSub = (measurements = [], response) => {
+  return [response.data, ...measurements]
+};
 
-const MetricsMain = () => {
-    const [{ fetching, data, error }] = useQuery({
-        query: getMetricTitles
-    });
+const MetricsMain = (props) => {
+    const metricTitles = [
+        "tubingPressure",
+        "flareTemp",
+        "injValveOpen",
+        "oilTemp",
+        "casingPressure",
+        "waterTemp",
+    ]
+    const [res] = useSubscription({
+        query: getRealTimeMeasurements, handleSub
+      });
 
-    if(fetching) {
-        return 'Loading...';
-    } else if(error) {
-        return `This is not the error you are looking for...
-                ERROR: ${error}`
-    }
-
-    const metricTitles = data.getMetrics
+      props.setMeasurements(res.data)
+      // SUB LOGIC END
 
     return(
         <MetricsWrap>
-            {metricTitles.map(t => {
-                return <MetricsCard key={t} title={t} />
-            })}
+            <MetricCardsWrap>
+                {metricTitles.map(t => {
+                    return <MetricsCard key={t} title={t} />
+                })}
+            </MetricCardsWrap>
+        {/* <LineGraphMain /> */}
         </MetricsWrap>
     )
 }
 
-export default MetricsMain
+export default connect(null, { setMeasurements })(MetricsMain)

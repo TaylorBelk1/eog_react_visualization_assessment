@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import MetricsCardView from './MetricsCardView';
+import { useDispatch, useSelector } from 'react-redux';
+import * as actions from '../../store/actions';
 
 const useStyles = makeStyles({
   card: {
@@ -18,14 +19,43 @@ const useStyles = makeStyles({
   }
 });
 
+const getLineGraphStatus = state => {
+  const { viewLineGraph } = state.measurementReducer.viewLineGraph;
+  return { viewLineGraph };
+}
+
 const MetricsCard = (props) => {
     const classes = useStyles();
+    const [show, setShow] = useState(false);
+    const dispatch = useDispatch();
+    const { viewLineGraph } = useSelector(getLineGraphStatus);
+
+    const handleClick = () => {
+      console.log('Clicked', props.title);
+      setShow(!show);
+      props.handleShow();
+      if(!show) {
+        console.log('LAUNCHING SET_SELECTED_DATA');
+        dispatch({
+          type: actions.SET_SELECTED_DATA,
+          payload: props.title,
+        });
+      } else if(show) {
+        console.log('LAUNCHING REMOVE_SELECTED_DATA');
+        dispatch({
+          type: actions.REMOVE_SELECTED_DATA,
+          payload: props.title,
+        })
+      }
+    }
+
     return (
-        <Card className={classes.card} raised="true">
+        <Card className={classes.card} raised={true} onClick={() => handleClick()}>
             <CardContent>
                 <Typography className={classes.title}>
-                    { props.title }
+                    {props.title}
                 </Typography>
+                {show ? <MetricsCardView title={props.title} /> : null}
             </CardContent>
         </Card>
     )

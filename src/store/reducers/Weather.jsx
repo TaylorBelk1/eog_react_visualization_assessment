@@ -1,4 +1,6 @@
-import * as actions from '../actions';
+import {
+  WEATHER_DATA_RECEIVED,
+} from '../actions';
 
 const initialState = {
   temperatureinCelsius: null,
@@ -26,7 +28,7 @@ const weatherDataRecevied = (state, action) => {
 };
 
 const handlers = {
-  [actions.WEATHER_DATA_RECEIVED]: weatherDataRecevied,
+  [WEATHER_DATA_RECEIVED]: weatherDataRecevied,
 };
 
 export default (state = initialState, action) => {
