@@ -30,7 +30,7 @@ Read more about this assessment [here](https://react.eogresources.com)
 
 
 ## Day Five
-#### -Research and implement recharts for historical metric data
+#### -Research and implement Chart.js for historical metric data
 
 ## Day Six/Seven
 #### -Add Styling
