@@ -4,7 +4,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import MetricsCardView from './MetricsCardView';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as actions from '../../store/actions';
 
 const useStyles = makeStyles({
@@ -19,16 +19,10 @@ const useStyles = makeStyles({
   }
 });
 
-const getLineGraphStatus = state => {
-  const { viewLineGraph } = state.measurementReducer.viewLineGraph;
-  return { viewLineGraph };
-}
-
 const MetricsCard = (props) => {
     const classes = useStyles();
     const [show, setShow] = useState(false);
     const dispatch = useDispatch();
-    const { viewLineGraph } = useSelector(getLineGraphStatus);
 
     const handleClick = () => {
       setShow(!show);
