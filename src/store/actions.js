@@ -7,10 +7,3 @@ export const UPDATE_MEASUREMENTS = "UPDATE_MEASUREMENTS";
 export const SET_SELECTED_DATA = "SET_SELECTED_DATA";
 export const REMOVE_SELECTED_DATA = "REMOVE_SELECTED_DATA";
 export const TOGGLE_SHOW_LINE_GRAPH = "TOGGLE_SHOW_LINE_GRAPH";
-
-export function setInitValues(values) {
-    return {
-        type: SET_INIT_VALUES,
-        payload: values,
-    }
-}
