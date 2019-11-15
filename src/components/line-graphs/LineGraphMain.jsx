@@ -1,4 +1,4 @@
-/* eslint-disable no-unneeded-ternary */
+
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { LineChartWrapper } from '../../styled-components/lineGraphStyles';

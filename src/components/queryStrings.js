@@ -1,4 +1,4 @@
-/* eslint-disable semi */
+
 
 export const getRealTimeMeasurements = `
     subscription MeasurementsSub {
