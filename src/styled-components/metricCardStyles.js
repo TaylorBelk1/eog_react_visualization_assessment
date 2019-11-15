@@ -1,4 +1,4 @@
-/* eslint-disable prefer-default-export */
+
 import styled from 'styled-components';
 import { media } from './variables';
 
